@@ -1,15 +1,227 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono&family=Orbitron:wght@600;700&display=swap');
+/* ============================
+   Neon Programming Notes Theme
+   ============================ */
+
+:root {
+    --bg: #0d0d0d;
+    --surface: #1a1a1a;
+    --surface2: #232323;
+
+    --text: #e8e8e8;
+    --muted: #b5b5b5;
+
+    --green: #39ff14;
+    --cyan: #38e8ff;
+    --blue: #46b7ff;
+
+    --code-bg: #202020;
+    --border: #303030;
+}
+
+/* Page */
 
 body {
-    font-family: "Inter", sans-serif !important;
+    background: var(--bg);
+    color: var(--text);
+
+    max-width: 950px;
+    margin: auto;
+    padding: 40px;
+
+    font-family: "Segoe UI", sans-serif;
+    line-height: 1.8;
 }
 
-h1, h2, h3, h4 {
-    font-family: "Orbitron", sans-serif !important;
+/* Main Title */
+
+h1 {
+    font-size: 3.2em;
+    font-weight: 800;
+
+    color: white;
+
+    margin-bottom: .7em;
 }
 
-code,
-pre,
+/* Section Headers */
+
+h2,
+h3,
+h4 {
+    color: var(--green);
+
+    border-bottom: 2px solid var(--green);
+
+    padding-bottom: .2em;
+
+    text-shadow:
+        0 0 6px rgba(57,255,20,.8),
+        0 0 15px rgba(57,255,20,.4);
+
+    margin-top: 2em;
+}
+
+/* Paragraphs */
+
+p {
+    color: var(--text);
+}
+
+/* Lists */
+
+ul,
+ol {
+    padding-left: 1.5em;
+}
+
+li {
+    margin: .4em 0;
+}
+
+/* Links */
+
+a {
+    color: var(--cyan);
+    text-decoration: none;
+}
+
+a:hover {
+    text-shadow: 0 0 8px var(--cyan);
+}
+
+/* Inline Code */
+
+code {
+    background: #1c2a30;
+
+    color: #d6ffff;
+
+    padding: 2px 8px;
+
+    border-radius: 6px;
+
+    font-family: Consolas, monospace;
+}
+
+/* Code Blocks */
+
+pre {
+    background: var(--surface);
+
+    border-radius: 12px;
+
+    padding: 20px;
+
+    overflow-x: auto;
+
+    border: 1px solid #333;
+
+    box-shadow:
+        inset 0 0 12px rgba(255,255,255,.02),
+        0 0 18px rgba(0,0,0,.4);
+}
+
 pre code {
-    font-family: "JetBrains Mono", monospace !important;
+    background: none;
+    padding: 0;
+    color: inherit;
+}
+
+/* Blockquotes */
+
+blockquote {
+    border-left: 4px solid var(--cyan);
+
+    background: rgba(56,232,255,.08);
+
+    padding: 15px 20px;
+
+    margin: 1.5em 0;
+
+    border-radius: 6px;
+
+    color: white;
+}
+
+/* Tables */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2em 0;
+}
+
+th {
+    background: #1f1f1f;
+    color: var(--green);
+}
+
+td,
+th {
+    border: 1px solid #333;
+    padding: 10px;
+}
+
+/* Horizontal Rule */
+
+hr {
+    border: none;
+    height: 2px;
+
+    background: linear-gradient(
+        to right,
+        transparent,
+        var(--green),
+        transparent
+    );
+
+    margin: 3em 0;
+}
+
+/* Images */
+
+img {
+    display: block;
+
+    max-width: 100%;
+
+    margin: 2em auto;
+
+    border-radius: 12px;
+
+    box-shadow: 0 0 20px rgba(57,255,20,.2);
+}
+
+/* Strong */
+
+strong {
+    color: white;
+}
+
+/* Italics */
+
+em {
+    color: #9eeeff;
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #111;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--green);
+    border-radius: 10px;
+}
+
+/* Selection */
+
+::selection {
+    background: var(--green);
+    color: black;
 }
