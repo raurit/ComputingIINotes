@@ -1,14 +1,390 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono&family=Orbitron:wght@600;700&display=swap');
+/* =====================================
+   Cyberglow-inspired Obsidian CSS Theme
+   For Pandoc HTML exports
+   ===================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@500;700&display=swap');
+
+
+:root {
+    --background: #080b12;
+    --background-alt: #101522;
+
+    --surface: #111827;
+    --surface-light: #172033;
+
+    --text: #e6edf3;
+    --text-muted: #9aa4b2;
+
+    --cyan: #00eaff;
+    --cyan-glow: rgba(0, 234, 255, .55);
+
+    --purple: #b84dff;
+    --purple-glow: rgba(184, 77, 255, .45);
+
+    --green: #39ff88;
+
+    --border: rgba(0, 234, 255, .25);
+}
+
+
+/* ======================
+   Base
+   ====================== */
+
+html {
+    background: var(--background) !important;
+}
 
 body {
-    font-family: "Inter", sans-serif;
+    background:
+        radial-gradient(
+            circle at top,
+            rgba(0,234,255,.08),
+            transparent 35%
+        ),
+        var(--background) !important;
+
+    color: var(--text) !important;
+
+    max-width: 950px;
+
+    margin: auto;
+
+    padding: 50px;
+
+    font-family: "Inter", sans-serif !important;
+
+    line-height: 1.7;
 }
 
-h1, h2, h3, h4 {
-    font-family: "Orbitron", sans-serif;
+
+/* ======================
+   Title
+   ====================== */
+
+h1.title {
+    font-family: "Orbitron", sans-serif !important;
+
+    color: white !important;
+
+    font-size: 3em;
+
+    text-align: center;
+
+    text-shadow:
+        0 0 10px var(--cyan),
+        0 0 25px var(--cyan-glow);
+
+    margin-bottom: 1.5em;
 }
 
-code,
+
+/* ======================
+   Headers
+   ====================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+
+    font-family: "Orbitron", sans-serif !important;
+
+    color: var(--cyan) !important;
+
+    border-bottom:
+        1px solid var(--border);
+
+    padding-bottom: .25em;
+
+    text-shadow:
+        0 0 8px var(--cyan-glow);
+
+    margin-top: 2em;
+}
+
+
+h2 {
+    color: var(--purple) !important;
+
+    text-shadow:
+        0 0 10px var(--purple-glow);
+}
+
+
+/* ======================
+   Paragraphs
+   ====================== */
+
+p {
+    color: var(--text) !important;
+}
+
+
+/* ======================
+   Links
+   ====================== */
+
+a {
+    color: var(--cyan) !important;
+
+    text-decoration: none;
+
+    transition: .2s;
+}
+
+
+a:hover {
+
+    color:white !important;
+
+    text-shadow:
+        0 0 8px var(--cyan);
+
+}
+
+
+/* ======================
+   Lists
+   ====================== */
+
+li::marker {
+
+    color: var(--cyan);
+
+}
+
+
+li {
+    margin: .4em 0;
+}
+
+
+/* ======================
+   Inline Code
+   ====================== */
+
+code {
+
+    font-family:
+        "JetBrains Mono",
+        monospace !important;
+
+    background:
+        rgba(0,234,255,.08) !important;
+
+    color:
+        #7fffff !important;
+
+    border:
+        1px solid rgba(0,234,255,.2);
+
+    border-radius: 6px;
+
+    padding:
+        2px 7px;
+}
+
+
+/* ======================
+   Code Blocks
+   ====================== */
+
 pre {
-    font-family: "JetBrains Mono", monospace;
+
+    background:
+        linear-gradient(
+            145deg,
+            #0d111b,
+            #151b2d
+        ) !important;
+
+    border:
+
+        1px solid var(--border);
+
+    border-radius: 12px;
+
+    padding: 20px;
+
+    overflow-x:auto;
+
+    box-shadow:
+
+        0 0 15px rgba(0,234,255,.12),
+        inset 0 0 20px rgba(0,0,0,.5);
+
+}
+
+
+pre code {
+
+    background:none !important;
+
+    border:none;
+
+    color:#d8faff !important;
+
+    font-family:
+        "JetBrains Mono",
+        monospace !important;
+
+}
+
+
+/* ======================
+   Blockquotes
+   ====================== */
+
+blockquote {
+
+    background:
+
+        rgba(184,77,255,.08);
+
+    border-left:
+
+        4px solid var(--purple);
+
+    padding:
+
+        12px 20px;
+
+    color:white !important;
+
+    box-shadow:
+
+        0 0 15px rgba(184,77,255,.15);
+
+}
+
+
+/* ======================
+   Horizontal Lines
+   ====================== */
+
+hr {
+
+    height:2px;
+
+    border:none;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--cyan),
+            transparent
+        );
+
+    box-shadow:
+
+        0 0 10px var(--cyan);
+
+}
+
+
+/* ======================
+   Tables
+   ====================== */
+
+table {
+
+    border-collapse:collapse;
+
+    width:100%;
+
+}
+
+
+th {
+
+    background:
+
+        rgba(0,234,255,.15);
+
+    color:
+
+        var(--cyan);
+
+}
+
+
+td,
+th {
+
+    border:
+
+        1px solid var(--border);
+
+    padding:10px;
+
+}
+
+
+/* ======================
+   Images
+   ====================== */
+
+img {
+
+    max-width:100%;
+
+    border-radius:12px;
+
+    box-shadow:
+
+        0 0 25px rgba(0,234,255,.25);
+
+}
+
+
+/* ======================
+   Scrollbar
+   ====================== */
+
+::-webkit-scrollbar {
+
+    width:10px;
+
+}
+
+
+::-webkit-scrollbar-track {
+
+    background:#05070c;
+
+}
+
+
+::-webkit-scrollbar-thumb {
+
+    background:
+
+        linear-gradient(
+            var(--cyan),
+            var(--purple)
+        );
+
+    border-radius:10px;
+
+}
+
+
+/* ======================
+   Selection
+   ====================== */
+
+::selection {
+
+    background:
+
+        var(--cyan);
+
+    color:black;
+
 }
