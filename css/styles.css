@@ -12,12 +12,3 @@ code,
 pre {
     font-family: "JetBrains Mono", monospace;
 }
-
-body {
-    background: hotpink !important;
-}
-
-h1 {
-    color: yellow !important;
-    font-size: 72px !important;
-}
