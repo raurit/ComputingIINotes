@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Polymorphism</title>
+  <style>
+
+html {
+color: #1a1a1a;
+background-color: #fdfdfd;
+}
+body {
+margin: 0 auto;
+max-width: 36em;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
+}
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 12px;
+}
+h1 {
+font-size: 1.8em;
+}
+}
+@media print {
+html {
+background-color: white;
+}
+body {
+background-color: transparent;
+color: black;
+font-size: 12pt;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3, h4 {
+page-break-after: avoid;
+}
+}
+p {
+margin: 1em 0;
+}
+a {
+color: #1a1a1a;
+}
+a:visited {
+color: #1a1a1a;
+}
+img {
+max-width: 100%;
+}
+svg {
+height: auto;
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+margin-top: 1.4em;
+}
+h5, h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol, ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol, li > ul {
+margin-top: 0;
+}
+blockquote {
+margin: 1em 0 1em 1.7em;
+padding-left: 1em;
+border-left: 2px solid #e6e6e6;
+color: #606060;
+}
+code {
+white-space: pre-wrap;
+font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+font-size: 85%;
+margin: 0;
+hyphens: manual;
+}
+pre {
+margin: 1em 0;
+overflow: auto;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+background-color: transparent;
+overflow: visible;
+}
+hr {
+border: none;
+border-top: 1px solid #1a1a1a;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid #1a1a1a;
+border-bottom: 1px solid #1a1a1a;
+}
+th {
+border-top: 1px solid #1a1a1a;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
+text-align: center;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Polymorphism</h1>
+</header>
+<p>lksjdflkjalskdjflkasjdf NOTES</p>
+<ul>
+<li>Polymorph = multiple form(s)</li>
+<li>Code: one piece of code (variable, method, class) can be written
+<em>generically</em> so that it can be applied to many types</li>
+<li>Other languages:
+<ul>
+<li>Python: <code>list.sort()</code></li>
+<li>C: <code>qsort()</code></li>
+<li>Java: <code>Collections.sort()</code></li>
+</ul></li>
+<li>It allows you to write generic code, one function/method that can be
+applied to <em>any</em> type</li>
+</ul>
+<h4 id="subtype-polymorphism">Subtype Polymorphism</h4>
+<ul>
+<li>this is the “classic” OOP polymorphism</li>
+<li>You can treat a subtype as a supertype</li>
+<li>Ex: treat a <code>Robin</code> as a <code>Bird</code></li>
+<li>You can treat an <code>ArrayList</code> as a <code>List</code></li>
+<li>It simplifies code and means you only have to write on list or one
+method to process that list (or other types)</li>
+</ul>
+<h4 id="method-overloading">Method Overloading</h4>
+<ul>
+<li>Ex: from C, how many “absolute value” functions are there?
+<ul>
+<li><code>abs()</code> (integers), <code>fabs()</code> (floating point
+numbers), <code>labs()</code>, <code>llabs()</code></li>
+<li>C does not have function overloading: if you write a function ONLY
+that function can have that name</li>
+<li>Python doesn’t have it either</li>
+<li>Java does: how many absolute value functions does the math library
+have?</li>
+</ul></li>
+<li>You can have more than one function with the same name but with
+different types of arguments (inputs/parameters)</li>
+<li>The compiler is “smart enough” to figure out which one you want to
+call based on the value you give it: <code>int</code> it calls the
+version that takes an integer, <code>double</code>: it calls the version
+that takes a <code>double</code></li>
+<li>This mechanism is known as “static dispatch” (the compiler
+<em>dispatches</em> the function call at <em>compile time</em> that’s
+what static means)</li>
+</ul>
+<h4 id="operator-overloading">Operator Overloading</h4>
+<ul>
+<li>Consider in Java:
+<ul>
+<li><code>String + String</code> here the <code>+</code> means
+<em>concatenation</em></li>
+<li><code>int + int</code> here the <code>+</code> operator means
+addition</li>
+<li><code>int + String</code> here, the <code>+</code> operator means
+concatenation (after converting the int into a string)</li>
+</ul></li>
+<li>C: is it possible for operators, <code>+, =, *</code>, etc to have
+more than one meaning? No</li>
+<li>Python:
+<ul>
+<li><code>string + string</code> means concatenation</li>
+<li><code>int + int</code> means addition</li>
+<li><code>int + string</code>: run time error, you cannot mix types in
+python!</li>
+</ul></li>
+<li>C++: you can overload anything you want to have any meaning you
+want: you could <em>overload</em> the <code>-</code> operator to mean
+addition</li>
+<li>This is generally a bad idea</li>
+<li>Ex:
+<ul>
+<li><code>List + List</code> what does this mean?</li>
+<li>Appending the second list to the end of the first</li>
+<li>Vector addition: add each component, producing a new list</li>
+<li>Union, intersection?</li>
+<li>It is completely ambiguous</li>
+</ul></li>
+<li>Ex:
+<ul>
+<li><code>Time + Time</code></li>
+<li>meaningless, are these points in time? are these durations of time?
+Periods of time?</li>
+</ul></li>
+<li>Operator overloading is a thing, but <strong>should be extremely
+limited</strong></li>
+</ul>
+<h4 id="parameterized-polymorphism">Parameterized Polymorphism</h4>
+<ul>
+<li>In Java you can create a parameterized variable, class or
+method</li>
+<li>That one variable can be any type, method can act on any type, class
+can be associated with any type!</li>
+<li>Demonstration</li>
+</ul>
+</body>
+</html>

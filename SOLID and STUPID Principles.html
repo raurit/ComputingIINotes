@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>SOLID and STUPID Principles</title>
+  <style>
+
+html {
+color: #1a1a1a;
+background-color: #fdfdfd;
+}
+body {
+margin: 0 auto;
+max-width: 36em;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
+}
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 12px;
+}
+h1 {
+font-size: 1.8em;
+}
+}
+@media print {
+html {
+background-color: white;
+}
+body {
+background-color: transparent;
+color: black;
+font-size: 12pt;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3, h4 {
+page-break-after: avoid;
+}
+}
+p {
+margin: 1em 0;
+}
+a {
+color: #1a1a1a;
+}
+a:visited {
+color: #1a1a1a;
+}
+img {
+max-width: 100%;
+}
+svg {
+height: auto;
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+margin-top: 1.4em;
+}
+h5, h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol, ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol, li > ul {
+margin-top: 0;
+}
+blockquote {
+margin: 1em 0 1em 1.7em;
+padding-left: 1em;
+border-left: 2px solid #e6e6e6;
+color: #606060;
+}
+code {
+white-space: pre-wrap;
+font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+font-size: 85%;
+margin: 0;
+hyphens: manual;
+}
+pre {
+margin: 1em 0;
+overflow: auto;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+background-color: transparent;
+overflow: visible;
+}
+hr {
+border: none;
+border-top: 1px solid #1a1a1a;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid #1a1a1a;
+border-bottom: 1px solid #1a1a1a;
+}
+th {
+border-top: 1px solid #1a1a1a;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
+text-align: center;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">SOLID and STUPID Principles</h1>
+</header>
+<p>YIPPEEEE! YAYYY</p>
+<h2 id="solid-principles">SOLID Principles</h2>
+<h4 id="single-responsibility-principle">Single Responsibility
+Principle</h4>
+<ul>
+<li>Good encapsulation: a class should be responsible for ONE thing; it
+should DO one thing, it should BE (represent) one thing</li>
+<li>Violation: God-class or god-method: it does TOO much, it is
+responsible for multiple things</li>
+<li>A “name” class is probably going too far
+<ul>
+<li>YAGNI: You Ain’t Gonna Need It</li>
+</ul></li>
+<li>Keep your classes and methods <em>small</em></li>
+<li>Avoid “leaky abstractions”:
+<ul>
+<li>Avoid any and all exposure to the outside world of an object’s
+implementation details</li>
+<li>Violation: <code>public</code> variables</li>
+<li>Violation: locating methods or behavior that acts on a class’s data
+<em>outside</em> the class</li>
+<li>Leaky abstraction: you force a user to use your classes in a
+particular way instead of just using them…</li>
+</ul></li>
+</ul>
+<blockquote>
+<p>[!Example] We want to load book data, but we first need the author
+data…</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">//if this is the ONLY way it works, it is bad:</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">loadPersons</span><span class="op">();</span> <span class="co">//authors MUST come first</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">loadBooks</span><span class="op">();</span> <span class="co">//THEN you can load books</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">//this version breaks:</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">loadBooks</span><span class="op">();</span></span></code></pre></div>
+</blockquote>
+<h4 id="openclose-principle">Open/Close Principle</h4>
+<ul>
+<li>Every unit(module, class, method) should be <em>open for
+extension</em> and <em>closed for modification</em></li>
+<li>Classical inheritance:
+<ul>
+<li>Superclass provide a general behavior that should NOT be modifiable
+in the superclass</li>
+<li>Subclasses provide specific behavior that can be modified</li>
+</ul></li>
+<li>If the introduction of a new subclass breaks other ode: this is a
+violation of this principle</li>
+<li>If you end up using <code>instanceof</code> to determine “business
+logic”</li>
+<li>Violation: using a string to determine what happens</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>object<span class="op">.</span><span class="fu">getType</span><span class="op">().</span><span class="fu">equals</span><span class="op">(</span><span class="st">&quot;Stock&quot;</span><span class="op">))</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">//do stock things here</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span> <span class="cf">else</span> <span class="cf">if</span> <span class="op">(</span>object<span class="op">.</span><span class="fu">getType</span><span class="op">().</span><span class="fu">equals</span><span class="op">(</span><span class="st">&quot;Annuity&quot;</span><span class="op">))</span> <span class="op">{</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">//do annuity things here</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<ul>
+<li>Remember that using the <code>instanceof</code> keyword is okay when
+creating objects (especially when using copy constructors)</li>
+<li>Real takeaway: your inheritance hierarchy <em>better be right</em>:
+it better be well-defined</li>
+<li>Example: in Java, you can close modifications entirely using the
+<code>final</code> keyword
+<ul>
+<li>A class that is <code>final</code> <em>cannot</em> be
+subclassed!</li>
+<li>You can also make a variable <code>final</code>: makes it into a
+constant!</li>
+<li>You can make a method <code>final</code>: subclasses CANNOT override
+that method!</li>
+</ul></li>
+</ul>
+<h4 id="liskov-substitution-principle">Liskov Substitution
+Principle</h4>
+<ul>
+<li>If S is a subtype of T then objects of type T may be replaced with
+objects of type S without altering any of the desire properties of
+T.</li>
+<li>Subtype polymorphism!</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">ArrayList</span><span class="op">&lt;</span><span class="bu">Integer</span><span class="op">&gt;</span> numbers <span class="op">=</span> <span class="kw">new</span> <span class="bu">ArrayList</span><span class="op">&lt;&gt;();</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">LinkedList</span><span class="op">&lt;</span><span class="bu">Integer</span><span class="op">&gt;</span> numbers2 <span class="op">=</span> <span class="kw">new</span> <span class="bu">LinkedList</span><span class="op">&lt;&gt;();</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">List</span><span class="op">&lt;</span><span class="bu">Integer</span><span class="op">&gt;</span> foo <span class="op">=</span> numbers<span class="op">;</span> <span class="co">//okay, shuold NOT break anything!</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>foo <span class="op">=</span> numbers2<span class="op">;</span> <span class="co">//also should not break</span></span></code></pre></div>
+<ul>
+<li>Violation: Rectangle/Square example</li>
+<li>Author, Director, Person</li>
+</ul>
+<h4 id="interface-segregation-principle">Interface Segregation
+Principle</h4>
+<ul>
+<li>No “client” code (code that uses other code) should depend on
+methods it does not care about</li>
+<li>Example <code>ClickEventHandler</code> is an interface that defines
+two methods:
+<ul>
+<li><code>onClick()</code></li>
+<li><code>onDoubleClick()</code></li>
+</ul></li>
+<li>A bad design would <em>force</em> you to implement both of these
+things even if you didn’t want to…
+<ul>
+<li>If just want to have a button that people click and I don’t care
+about when they double click</li>
+</ul></li>
+<li>Instead: all interfaces should be as small as possible</li>
+</ul>
+<h4 id="dependency-inversion-principle">Dependency Inversion
+Principle</h4>
+<ul>
+<li>High-level modules (classes) should not depend on low-level modules
+<ul>
+<li>You write code that connects to a (Free) MySQL database with
+very-specific MySQL</li>
+</ul></li>
+<li>Inversion:</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">interface</span> <span class="bu">Locator</span> <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="bu">Location</span> <span class="fu">getLocation</span><span class="op">();</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> AndroidLocator <span class="kw">implements</span> <span class="bu">Locator</span> <span class="op">{</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="bu">Location</span> <span class="fu">getLocation</span><span class="op">()</span> <span class="op">{</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        AndroidLocation l <span class="op">=</span> Android</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<ul>
+<li>“Inverting” a dependency means creating an interface between the
+“high-level” object/class/thing and the low-level library that
+<code>implements</code> it</li>
+<li>In general, you should prefer <em>loose coupling</em> so that
+software components can easily be interchanged</li>
+</ul>
+<h2 id="stupid-principles">STUPID Principles</h2>
+<h4 id="singleton">Singleton</h4>
+<ul>
+<li>Use global state</li>
+</ul>
+<h4 id="tight-coupling">Tight Coupling</h4>
+<ul>
+<li>Generalization of the singleton problem</li>
+<li>If making a change in one module in your application requires you to
+change another module, then tight coupling exists</li>
+</ul>
+<h4 id="untestability">Untestability</h4>
+<ul>
+<li>Most cases caused by Tight Coupling</li>
+</ul>
+<h4 id="premature-optimization">Premature Optimization</h4>
+<ul>
+<li>Much more complex than just writing a loop or using pre-increment
+instead of post-increment</li>
+<li>OPTMIZE LATER!</li>
+</ul>
+<h4 id="indescriptive-naming">Indescriptive Naming</h4>
+<ul>
+<li>Name your classes, methods, attributes, and variables
+appropriately</li>
+<li>Do not abbreviate them</li>
+<li>Write code for people, not for machines</li>
+</ul>
+<h4 id="duplication">Duplication</h4>
+<ul>
+<li>Duplicated code is inefficient</li>
+</ul>
+</body>
+</html>

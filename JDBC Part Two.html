@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.10" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>JDBC Part Two</title>
+  <style>
+
+html {
+color: #1a1a1a;
+background-color: #fdfdfd;
+}
+body {
+margin: 0 auto;
+max-width: 36em;
+padding-left: 50px;
+padding-right: 50px;
+padding-top: 50px;
+padding-bottom: 50px;
+hyphens: auto;
+overflow-wrap: break-word;
+text-rendering: optimizeLegibility;
+font-kerning: normal;
+}
+@media (max-width: 600px) {
+body {
+font-size: 0.9em;
+padding: 12px;
+}
+h1 {
+font-size: 1.8em;
+}
+}
+@media print {
+html {
+background-color: white;
+}
+body {
+background-color: transparent;
+color: black;
+font-size: 12pt;
+}
+p, h2, h3 {
+orphans: 3;
+widows: 3;
+}
+h2, h3, h4 {
+page-break-after: avoid;
+}
+}
+p {
+margin: 1em 0;
+}
+a {
+color: #1a1a1a;
+}
+a:visited {
+color: #1a1a1a;
+}
+img {
+max-width: 100%;
+}
+svg {
+height: auto;
+max-width: 100%;
+}
+h1, h2, h3, h4, h5, h6 {
+margin-top: 1.4em;
+}
+h5, h6 {
+font-size: 1em;
+font-style: italic;
+}
+h6 {
+font-weight: normal;
+}
+ol, ul {
+padding-left: 1.7em;
+margin-top: 1em;
+}
+li > ol, li > ul {
+margin-top: 0;
+}
+blockquote {
+margin: 1em 0 1em 1.7em;
+padding-left: 1em;
+border-left: 2px solid #e6e6e6;
+color: #606060;
+}
+code {
+white-space: pre-wrap;
+font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+font-size: 85%;
+margin: 0;
+hyphens: manual;
+}
+pre {
+margin: 1em 0;
+overflow: auto;
+}
+pre code {
+padding: 0;
+overflow: visible;
+overflow-wrap: normal;
+}
+.sourceCode {
+background-color: transparent;
+overflow: visible;
+}
+hr {
+border: none;
+border-top: 1px solid #1a1a1a;
+height: 1px;
+margin: 1em 0;
+}
+table {
+margin: 1em 0;
+border-collapse: collapse;
+width: 100%;
+overflow-x: auto;
+display: block;
+font-variant-numeric: lining-nums tabular-nums;
+}
+table caption {
+margin-bottom: 0.75em;
+}
+tbody {
+margin-top: 0.5em;
+border-top: 1px solid #1a1a1a;
+border-bottom: 1px solid #1a1a1a;
+}
+th {
+border-top: 1px solid #1a1a1a;
+padding: 0.25em 0.5em 0.25em 0.5em;
+}
+td {
+padding: 0.125em 0.5em 0.25em 0.5em;
+}
+header {
+margin-bottom: 4em;
+text-align: center;
+}
+#TOC li {
+list-style: none;
+}
+#TOC ul {
+padding-left: 1.3em;
+}
+#TOC > ul {
+padding-left: 0;
+}
+#TOC a:not(:hover) {
+text-decoration: none;
+}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">JDBC Part Two</h1>
+</header>
+<p>WOOOOO LAST DAY OF THE FIRST WEEK AFTER SPRING BREAK I MISSED!!!</p>
+<h1 id="observations">Observations</h1>
+<ul>
+<li>ORMs = Object Relational Mappings Systems; Java: JPA = Java
+Persistence API</li>
+<li>When executing a <code>PreparedStatement</code>:
+<ul>
+<li>Use <code>executeQuery()</code> if you expect a
+<code>ResultSet</code></li>
+<li>Use <code>executeUpdate()</code> if you are
+inserting/deleting/updating data in the database</li>
+</ul></li>
+<li>Do some basic data validation: both in terms of nullable columns and
+to ensure that records are unique <em>if they need to be</em></li>
+<li>If doing multiple inserts (emails): only use ONE prepared statement
+(over and over), don’t close/reopen unnecessarily</li>
+<li>If you need generated key values back from an insert statement, use
+<code>Statement.RETURN_GENERATED_KEYS</code> and
+<code>ps.getGeneratedKeys();</code> to retrieve them</li>
+</ul>
+<h1 id="best-practices">Best Practices</h1>
+<h2 id="avoid-the-star-operator">Avoid the Star Operator</h2>
+<ul>
+<li>Example: don’t do <code>select * from Person</code> in JDBC</li>
+<li>This sends ALL data over the wire (network) whether you want it or
+not</li>
+<li>It makes it brittle to database changes: suppose someone adds a BLOB
+column (image for the person)</li>
+<li>Be more intentional: only select the columns you are actually going
+to use so that you are not sending redundant or useless data over the
+network</li>
+<li>Future proofs you: if someone comes in and adds a new column with a
+lot of data <code>blob</code>s = binary large objects</li>
+</ul>
+<h2 id="security-issues">Security Issues</h2>
+<ul>
+<li>For this course (only) are we storing the password in a Java source
+file</li>
+<li>This is unfortunately common</li>
+<li>Number one <a href="github.com">github.com</a> attack: look at all
+public repos for variables named “password”</li>
+<li>For this course: it is okay</li>
+<li>Advanced solution: setting up a “data source”</li>
+<li>Firewall everything BUT trusted servers (network admins)</li>
+</ul>
+<h2 id="close-your-resources">Close Your Resources!</h2>
+<ul>
+<li>Failure to close resources: <code>ResultSet</code>s,
+<code>PreparedStatement</code>s, and <code>Connection</code>s: you will
+eventually run out of connections</li>
+<li>Make sure you do it in the proper order: generally in reverse order
+than what you opened them in</li>
+<li>Don’t close a resource until you are done using</li>
+<li>It can be very difficult to track down which piece of code is not
+closing a resource!</li>
+</ul>
+<h2 id="dealing-with-sqlexceptions">Dealing with
+<code>SQLExceptions</code></h2>
+<ul>
+<li>Unfortunately: JDBC is quite “mature” and so it uses old-school
+style <em>checked exceptions</em>: ones that you are forced to surround
+with a <code>try-catch</code> and deal with</li>
+<li>Best practice: rethrow as a <code>RuntimeException</code></li>
+<li>Do NOT print anything! Instead use a proper logging system (To
+come)</li>
+<li>CS1 topic: error handling; the two things you do NOT do:
+<ul>
+<li>quit</li>
+<li>you don’t print anything!</li>
+</ul></li>
+</ul>
+<h2 id="always-use-preparedstatements">Always Use
+<code>PreparedStatements</code></h2>
+<ul>
+<li>In general, strings can contain anything including SQL code!</li>
+<li>If you do not use <code>PreparedStatement</code>s, then your queries
+may be unsanitary</li>
+<li>Instead a prepared statement sanitizes statements from any
+<em>injection attack</em></li>
+<li><code>PreparedStatement</code>s in Java sanitize the inputs for you,
+ensuring that no SQL injection is possible</li>
+<li>Never use anything else!</li>
+<li>Its just easier and simpler to always use
+<code>PreparedStatement</code>s</li>
+</ul>
+<h2 id="proper-logging">Proper Logging</h2>
+<ul>
+<li>No one is sitting at your terminal watching for standard output
+error messages, ready to jump into action</li>
+<li>NEVER ever use the standard output to log error messages,
+information, debug statements, etc. in a real system</li>
+<li>Instead: use a proper logging system</li>
+<li>Features:
+<ul>
+<li>Support multiple “levels” of logging:
+<code>DEBUG, INFO, WARN, ERROR</code></li>
+<li>Supports event-based actions such as emailing an admin when an error
+occurs</li>
+<li>Supports multiple outputs: file-based outputs, database-based
+outputs</li>
+<li>Supports file management: daily rolling file, size-based rolling
+files, etc.</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> DatabaseDataLoader <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> Person <span class="fu">loadPerson</span><span class="op">(</span><span class="dt">int</span> personId<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        Person p <span class="op">=</span> <span class="kw">null</span><span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> serverUrl <span class="op">=</span> <span class="st">&quot;jdbc:mysql://cse-linux-01.unl.edu/raurit2&quot;</span><span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> username <span class="op">=</span> <span class="st">&quot;raurit2&quot;</span><span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> password <span class="op">=</span> <span class="st">&quot;&quot;</span><span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Connection</span> conn<span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>            <span class="co">// 1. make your connection</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>            conn <span class="op">=</span> <span class="bu">DriverManager</span><span class="op">.</span><span class="fu">getConnection</span><span class="op">(</span>serverUrl<span class="op">,</span>username<span class="op">,</span>password<span class="op">);</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>            <span class="co">// 2a. create and prepare your query</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>            <span class="bu">String</span> query <span class="op">=</span> <span class="st">&quot;&quot;&quot;select firstName,</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="st">                lastName,</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="st">                dateOfBirth </span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="st">                from Person where personId = ?;&quot;&quot;&quot;</span><span class="op">;</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>            <span class="bu">PreparedStatement</span> ps <span class="op">=</span> conn<span class="op">.</span><span class="fu">prepareStatement</span><span class="op">(</span>query<span class="op">);</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>            ps<span class="op">.</span><span class="fu">setInt</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> personId<span class="op">);</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            <span class="bu">ResultSet</span> rs <span class="op">=</span> ps<span class="op">.</span><span class="fu">executeQuery</span><span class="op">();</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span><span class="op">(</span>rs<span class="op">.</span><span class="fu">next</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>                <span class="bu">String</span> lastName <span class="op">=</span> rs<span class="op">.</span><span class="fu">getString</span><span class="op">(</span><span class="st">&quot;lastName&quot;</span><span class="op">);</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>                <span class="bu">String</span> firstName <span class="op">=</span> rs<span class="op">.</span><span class="fu">getString</span><span class="op">(</span><span class="st">&quot;firstName&quot;</span><span class="op">);</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>                <span class="bu">String</span> dateOfBirthStr <span class="op">=</span> rs<span class="op">.</span><span class="fu">getString</span><span class="op">(</span><span class="st">&quot;dateOfBirth&quot;</span><span class="op">);</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>                LocalDate dateOfBirth <span class="op">=</span> LocalDate<span class="op">.</span><span class="fu">parse</span><span class="op">(</span>dateOfBirthStr<span class="op">);</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>                Person p <span class="op">=</span> <span class="kw">new</span> <span class="fu">Person</span><span class="op">(</span>lastName<span class="op">,</span> firstName<span class="op">,</span> dateOfBirth<span class="op">);</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>                <span class="co">//? is a *parameter* in the query which can be set</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>                <span class="co">//by the prepared statement</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>                <span class="bu">String</span> queryEmail <span class="op">=</span> </span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;select address from Email where personId = ?;&quot;</span><span class="op">;</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>                <span class="bu">PreparedStatement</span> psEmail <span class="op">=</span> </span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>                    conn<span class="op">.</span><span class="fu">prepareStatement</span><span class="op">(</span>queryEmail<span class="op">);</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>                <span class="co">//you use 1-indexgin (if you have multiple parameters)</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>                <span class="co">//specify the variable value</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>                psEmail<span class="op">.</span><span class="fu">setInt</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> personId<span class="op">);</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>                <span class="bu">ResultSet</span> rsEmail <span class="op">=</span> psEmail<span class="op">.</span><span class="fu">executeQuery</span><span class="op">();</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>                <span class="cf">while</span><span class="op">(</span>rsEmail<span class="op">.</span><span class="fu">next</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>                    <span class="bu">String</span> address <span class="op">=</span> rsEmail<span class="op">.</span><span class="fu">getString</span><span class="op">(</span><span class="st">&quot;address&quot;</span><span class="op">);</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>                    p<span class="op">.</span><span class="fu">addEmail</span><span class="op">(</span>address<span class="op">);</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>                <span class="op">}</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>                rsEmail<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>                psEmail<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>            <span class="co">// 4. close your resources...</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>            rs<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>            ps<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>            conn<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">SQLException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>            <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">RuntimeException</span><span class="op">(</span>e<span class="op">);</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> p<span class="op">;</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> Demo <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span><span class="op">(</span><span class="bu">String</span> args<span class="op">[])</span> <span class="op">{</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        Person lebron <span class="op">=</span> DatabaseDataLoader<span class="op">.</span><span class="fu">loadPerson</span><span class="op">(</span><span class="dv">3</span><span class="op">);</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">System</span><span class="op">.</span><span class="fu">out</span><span class="op">.</span><span class="fu">println</span><span class="op">(</span>lebron<span class="op">);</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        Person p <span class="op">=</span> <span class="kw">new</span> <span class="fu">Person</span><span class="op">(</span><span class="st">&quot;Alberts&quot;</span><span class="op">,</span> <span class="st">&quot;Trev&quot;</span><span class="op">,</span> LocalDate<span class="op">.</span><span class="fu">of</span><span class="op">(</span><span class="dv">1970</span><span class="op">,</span> <span class="bn">01</span><span class="op">,</span> <span class="bn">01</span><span class="op">));</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        p<span class="op">.</span><span class="fu">addEmail</span><span class="op">(</span><span class="st">&quot;trev@unl.edu&quot;</span><span class="op">);</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        p<span class="op">.</span><span class="fu">addEmail</span><span class="op">(</span><span class="st">&quot;trev@tam.edu&quot;</span><span class="op">);</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        DatabasePersister<span class="op">.</span><span class="fu">savePerson</span><span class="op">(</span>p<span class="op">);</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Output:</p>
+<pre><code>James, LeBron emails: [ljlakers@lakers.com, LeBron@cavs.com]</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> DatabasePersister <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>     <span class="co">/**</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>     <span class="co">*</span> Persists<span class="co">(</span>saves<span class="co">)</span> the given person object to the database<span class="co">.</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>     <span class="co">*</span> </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>     <span class="co">*</span> <span class="an">@param</span><span class="co"> </span><span class="an">p</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>     <span class="co">*/</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">savePerson</span><span class="op">(</span>Person p<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        <span class="co">//</span><span class="al">TODO</span><span class="co">: basic validation</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="co">//</span><span class="al">TODO</span><span class="co">: make sure the record doesn&#39;t already exist </span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        <span class="co">//based on some criteria</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> serverUrl <span class="op">=</span> <span class="st">&quot;jdbc:mysql://cse-linux-01.unl.edu/raurit2&quot;</span><span class="op">;</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> username <span class="op">=</span> <span class="st">&quot;raurit2&quot;</span><span class="op">;</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        <span class="bu">String</span> password <span class="op">=</span> <span class="st">&quot;&quot;</span><span class="op">;</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Connection</span> conn<span class="op">;</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">try</span> <span class="op">{</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>            <span class="co">// 1. make your connection</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>            conn <span class="op">=</span> <span class="bu">DriverManager</span><span class="op">.</span><span class="fu">getConnection</span><span class="op">(</span>serverUrl<span class="op">,</span>username<span class="op">,</span>password<span class="op">);</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>            <span class="co">// 2. create an insert query:</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>            <span class="bu">String</span> insertPerson <span class="op">=</span> <span class="st">&quot;insert into Person </span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>                <span class="op">(</span>lastName<span class="op">,</span>firstName<span class="op">,</span>dateofBirth<span class="op">)</span> <span class="fu">values</span> <span class="op">(?,</span> <span class="op">?,</span> <span class="op">?);</span><span class="st">&quot;;</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>            <span class="bu">PreparedStatement</span> psInsertPerson <span class="op">=</span> </span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>                conn<span class="op">.</span><span class="fu">prepareStatement</span><span class="op">(</span>insertperson<span class="op">,</span> </span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>                <span class="bu">Statement</span><span class="op">.</span><span class="fu">RETURN_GENERATED_KEYS</span><span class="op">);</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>            psInsertPerson<span class="op">.</span><span class="fu">setString</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> p<span class="op">.</span><span class="fu">getLastName</span><span class="op">());</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>            psInsertPerson<span class="op">.</span><span class="fu">setString</span><span class="op">(</span><span class="dv">2</span><span class="op">,</span> p<span class="op">.</span><span class="fu">getFirstName</span><span class="op">());</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>            psInsertPerson<span class="op">.</span><span class="fu">setString</span><span class="op">(</span><span class="dv">3</span><span class="op">,</span> p<span class="op">.</span><span class="fu">getDateOfBirth</span><span class="op">().</span><span class="fu">toString</span><span class="op">());</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>            <span class="co">// 3. execute the query</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>            <span class="co">//    because it is an insert/update/delete query, use;</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>            psInsertPerson<span class="op">.</span><span class="fu">executeUpdate</span><span class="op">();</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>            <span class="co">//now that the person is in the database, </span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>            <span class="co">//make a query to load it...</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>            <span class="bu">ResultSet</span> keys <span class="op">=</span> psInsertPerson<span class="op">.</span><span class="fu">getGeneratedKeys</span><span class="op">();</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>            <span class="co">//you are only inserting one record, so we only expect one key:</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>            keys<span class="op">.</span><span class="fu">next</span><span class="op">();</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>            <span class="dt">int</span> personId <span class="op">=</span> keys<span class="op">.</span><span class="fu">getInt</span><span class="op">(</span><span class="dv">1</span><span class="op">);</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>            <span class="co">//now insert the email records...</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>            <span class="bu">String</span> insertEmail <span class="op">=</span> <span class="st">&quot;insert into Email (personId, address) </span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>                <span class="fu">values</span> <span class="op">(?,?);</span><span class="st">&quot;;</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>            <span class="bu">PreparedStatement</span> psInsertEmail <span class="op">=</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>                conn<span class="op">.</span><span class="fu">prepareStatement</span><span class="op">(</span>insertEmail<span class="op">);</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span><span class="op">(</span><span class="bu">String</span> emailAddress <span class="op">:</span> p<span class="op">.</span><span class="fu">getEmails</span><span class="op">())</span> <span class="op">{</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>                psInsertEmail<span class="op">.</span><span class="fu">setInt</span><span class="op">(</span><span class="dv">1</span><span class="op">,</span> personId<span class="op">);</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>                psInsertEmail<span class="op">.</span><span class="fu">setInt</span><span class="op">(</span><span class="dv">2</span><span class="op">,</span> emailAddress<span class="op">);</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>            psInsertEmail<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>            </span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>            psInsertPerson<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>            conn<span class="op">.</span><span class="fu">close</span><span class="op">();</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span> <span class="cf">catch</span> <span class="op">(</span><span class="bu">SQLException</span> e<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>            <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">RuntimeException</span><span class="op">(</span>e<span class="op">);</span></span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>        <span class="op">}</span></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+</body>
+</html>
